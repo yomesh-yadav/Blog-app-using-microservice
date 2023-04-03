@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reactapp-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reactapp
+  template:
+    metadata:
+      labels:
+        app: reactapp
+    spec:
+      containers:
+        - name: reactapp
+          image: lego123/reactapp
+---
+# craeting a cluster ip service 
+apiVersion: v1
+kind: Service
+metadata: 
+  name: reactapp-srv
+spec:
+  selector:
+    app: reactapp
+  type: ClusterIP
+  ports:
+    - name: reactapp
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
